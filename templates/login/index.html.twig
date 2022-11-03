@@ -1,0 +1,27 @@
+{# templates/login/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{# ... #}
+
+{% block body %}
+    {% if error %}
+        <div class="mt-4 alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path('app_login') }}" method="post">
+        <label for="username" class="mt-4 form-label">Nom d'utilisateur:</label>
+        <input type="text" id="username" name="_username" class="form-control"/>
+
+        <label for="password" class="mt-4 form-label">Password:</label>
+        <input type="password" id="password" name="_password" class="form-control"/>
+
+        {# If you want to control the URL the user is redirected to on success
+        <input type="hidden" name="_target_path" value="/account"/> #}
+
+        <button type="submit" class="mt-4 btn btn-primary">Se connecter</button>
+    </form>
+
+    <p class="mt-4">
+    <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié?</a>
+    </p>
+{% endblock %}
