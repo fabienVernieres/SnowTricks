@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier votre profil{% endblock %}
+
+{% block body %}
+    <h1>Modifier votre profil</h1>
+
+     {% if user.avatar %}
+        <div class="mt-4 mb-4">
+            <img src="{{ asset('uploads/avatars/' ~ user.avatar) | imagine_filter('avatar_thumb') }}" alt="{{ user.avatar }}" />
+        </div>
+    {% endif %}
+
+    {{ include('user/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+{% endblock %}

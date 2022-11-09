@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Figure{% endblock %}
+
+{% block body %}
+    <h1>Figure</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ figure.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ figure.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ figure.description }}</td>
+            </tr>
+
+            {% if figure.image %}
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('uploads/images/' ~ figure.image) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" /></td>
+            </tr>
+           {% endif %}
+
+            <tr>
+                <th>Date</th>
+                <td>{{ figure.creationDate ? figure.creationDate|date('d-m-Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% if is_granted("POST_EDIT", figure) %}
+    <a href="{{ path('app_figure_index') }}">Retour à la liste</a>
+
+    <a href="{{ path('app_figure_edit', {'id': figure.id}) }}">éditer</a>
+    
+    {{ include('figure/_delete_form.html.twig') }}
+    {% endif %}
+
+{% endblock %}

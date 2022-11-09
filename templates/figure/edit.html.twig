@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer une Figure{% endblock %}
+
+{% block body %}
+    <h1>Editer une Figure</h1>
+    
+    {% if figure.image %}
+    <div class="mt-4">
+        <img src="{{ asset('uploads/images/' ~ figure.image) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" /></td>
+    </div>
+    {% endif %}
+
+    {{ include('figure/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <p class="mt-4">
+        <a href="{{ path('app_figure_index') }}">retour à la liste</a>
+    </p>
+
+    {{ include('figure/_delete_form.html.twig') }}
+{% endblock %}

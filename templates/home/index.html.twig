@@ -8,10 +8,24 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="container mt-4">
-    <h1>SnowTricks</h1>
+<h1>SnowTricks</h1>
+
+    {% for flash_message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">{{ flash_message }}</div>
+    {% endfor %}
+
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
     <p>Bienvenue {{ app.user.name }}</p>
 {% endif %}
-</div>
+
+{% for figure in figures %}
+    <div class="card">
+        <h3>{{ figure.name }}</h3>
+        <a href="{{ path('app_figure_show', {'id': figure.id, 'slug': figure.slug}) }}">
+        <img src="{{ asset('uploads/images/' ~ figure.image) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+        </a>
+    </div>
+
+        {% endfor %}
+
 {% endblock %}

@@ -21,7 +21,12 @@
 
     {{ include('includes/_header.html.twig') }}
 
-    <div class="container">
+    <div class="container pt-4">
+
+        {% for flash_message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">{{ flash_message }}</div>
+        {% endfor %}
+
         {% block body %}{% endblock %}
     </div>
 
