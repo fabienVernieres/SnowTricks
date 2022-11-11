@@ -44,14 +44,19 @@ class Figure
     #[ORM\OneToMany(mappedBy: 'figure', targetEntity: Video::class)]
     private Collection $videos;
 
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
+    #[ORM\ManyToOne]
+    private ?Image $image = null;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->videos = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->id;
     }
 
     public function getId(): ?int
@@ -221,12 +226,12 @@ class Figure
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage(): ?Image
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?Image $image): self
     {
         $this->image = $image;
 

@@ -3,11 +3,13 @@
 {% block title %}Nouvelle Figure{% endblock %}
 
 {% block body %}
-    <h1>Créer une nouvelle Figure</h1>
+    <h1 class="container mt-4">Créer une nouvelle Figure</h1>
 
+<div class="container mt-4">
     {{ include('figure/_form.html.twig') }}
 
     <p class="mt-4">
     <a href="{{ path('app_figure_index') }}">Retour à la liste</a>
     </p>
+</div>
 {% endblock %}

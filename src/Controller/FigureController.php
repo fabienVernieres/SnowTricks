@@ -62,7 +62,7 @@ class FigureController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/{slug}', name: 'app_figure_show', methods: ['GET'])]
+    #[Route('/{id}/trick-{slug}', name: 'app_figure_show', methods: ['GET'])]
     public function show(Figure $figure): Response
     {
         return $this->render('figure/show.html.twig', [
@@ -81,19 +81,6 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $imageFile */
-            $imageFile = $form->get('image')->getData();
-
-            if ($imageFile) {
-                if ($figure->getImage()) {
-                    $fileSystem = new Filesystem();
-                    $fileSystem->remove($this->getParameter('images_directory') . '/' . $figure->getImage());
-                }
-
-                $imageFileName = $fileUploader->upload('images_directory', $imageFile);
-                $figure->setImage($imageFileName);
-            }
-
             $figureRepository->save($figure, true);
 
             $this->addFlash('success', 'La modification de votre figure est validée.');

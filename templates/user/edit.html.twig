@@ -3,8 +3,9 @@
 {% block title %}Modifier votre profil{% endblock %}
 
 {% block body %}
-    <h1>Modifier votre profil</h1>
+    <h1 class="mt-4 container">Modifier votre profil</h1>
 
+    <div class="container mt-4">
      {% if user.avatar %}
         <div class="mt-4 mb-4">
             <img src="{{ asset('uploads/avatars/' ~ user.avatar) | imagine_filter('avatar_thumb') }}" alt="{{ user.avatar }}" />
@@ -12,5 +13,6 @@
     {% endif %}
 
     {{ include('user/_form.html.twig', {'button_label': 'Modifier'}) }}
+    </div>
 
 {% endblock %}

@@ -3,8 +3,9 @@
 {% block title %}Figure index{% endblock %}
 
 {% block body %}
-    <h1>Figure index</h1>
+    <h1 class="text-center mt-4">Figure index</h1>
 
+<div class="container mt-4">
     <table class="table">
         <thead>
             <tr>
@@ -23,7 +24,7 @@
                 <td>{{ figure.description }}</td>
                 <td>{{ figure.creationDate ? figure.creationDate|date('d-m-Y') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_figure_show', {'id': figure.id, 'slug': figure.slug}) }}">voir</a>
+                    <a href="{{ path('app_show', {'id': figure.id, 'slug': figure.slug}) }}">voir</a>
                     <a href="{{ path('app_figure_edit', {'id': figure.id}) }}">éditer</a>
                 </td>
             </tr>
@@ -36,4 +37,6 @@
     </table>
 
     <a href="{{ path('app_figure_new') }}">Ajouter une figure</a>
+</div>
+
 {% endblock %}

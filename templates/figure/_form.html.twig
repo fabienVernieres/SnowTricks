@@ -1,7 +1,15 @@
 {{ form_start(form) }}
     {{ form_row(form.name) }}
-    {{ form_row(form.description) }}
+    {{ form_row(form.description,{ 'attr': {'rows': '12'}}) }}
     {{ form_row(form.category) }}
-    {{ form_row(form.image) }}
-    <button class="btn btn-primary">{{ button_label|default('Valider') }}</button>
+
+    <div class="form-figure-btn row row-cols-2 align-items-center justify-content-start">
+    <div class="col-6">
+    <button class="btn btn-form btn-form-save">{{ button_label|default('Valider') }}</button>
+    </div>
 {{ form_end(form) }}
+
+    <div class="col-6">
+    {{ include('figure/_delete_form.html.twig') }}
+    </div>
+    </div>
