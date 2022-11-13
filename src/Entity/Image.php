@@ -20,7 +20,7 @@ class Image
     #[ORM\JoinColumn(onDelete: "CASCADE")]
     private ?Figure $figure = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 50)]
     private ?string $name = null;
 
     public function getId(): ?int

@@ -9,11 +9,11 @@
 
 <h1 class="text-center mt-4">Connectez-vous</h1>
     
+<div class="form-container mt-4">
 {% if error %}
 <div class="mt-4 alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
-<div class="form-container mt-4">
     <form action="{{ path('app_login') }}" method="post">
         <label for="username" class="mt-4 label">Nom d'utilisateur:</label>
         <input type="text" id="username" name="_username" class="form-control"/>

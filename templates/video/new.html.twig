@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une vidéo{% endblock %}
+
+{% block body %}
+    <h1 class="container mt-4">Ajouter une vidéo</h1>
+
+    <div class="container mt-4">
+    {{ include('video/_form.html.twig') }}
+    </div>
+    
+{% endblock %}

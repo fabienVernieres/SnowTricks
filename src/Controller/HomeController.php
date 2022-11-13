@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Repository\FigureRepository;
+use App\Repository\ImageRepository;
+use App\Repository\VideoRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +23,16 @@ class HomeController extends AbstractController
     }
 
 
-    #[Route('/{id}/trick/{slug}', name: 'app_show', methods: ['GET'])]
-    public function show(Figure $figure): Response
+    #[Route('/trick/{id}/{slug}', name: 'app_show', methods: ['GET'])]
+    public function show(Figure $figure, ImageRepository $imageRepository, VideoRepository $videoRepository): Response
     {
+        $images = $imageRepository->findBy(['figure' => $figure]);
+        $videos = $videoRepository->findBy(['figure' => $figure]);
+
         return $this->render('figure/show.html.twig', [
             'figure' => $figure,
+            'images' => $images,
+            'videos' => $videos,
         ]);
     }
 }

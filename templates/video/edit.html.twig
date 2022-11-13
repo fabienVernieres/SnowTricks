@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la vidéo video.name{% endblock %}
+
+{% block body %}
+    <h1 class="container mt-4">Edit Video</h1>
+
+    <div class="container mt-4">
+    {{ include('video/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+
+{% endblock %}

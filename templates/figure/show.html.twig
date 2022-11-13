@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Figure{% endblock %}
+{% block title %}{{ figure.name }}{% endblock %}
 
 {% block body %}
 
@@ -39,8 +39,42 @@
     {% endif %}
     
     </div>
+</div>
 
-    <p class="mt-4">
+{# médias #}
+<div class="container mt-4">
+<div class="form-add-media-new row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+
+{% if images is defined %}
+{% for image in images %}
+
+<div class="col mb-3 d-flex">
+    <div class="card rounded-0 border-0 mb-5">
+        <a href="{{ path('app_image_show', {'id': image.id}) }}">
+        <img class="img-fluid" src="{{ asset('uploads/images/' ~ image.url) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+        </a>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if videos is defined %}
+{% for video in videos %}
+
+<div class="col mb-3 d-flex">
+    <div class="card rounded-0 border-0 mb-5">
+        <a href="{{ path('app_video_show', {'id': video.id}) }}">
+        <img class="img-fluid" src="{{ asset('media/images/video.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+        </a>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+</div>
+</div>
+
+<div class="container mt-4 ps-2 pe-2 ps-md-5 pe-md-5">
+    <p class="ps-2 pe-2 ps-md-5 pe-md-5">
     {{ figure.description }}</td>
     </p>
     
