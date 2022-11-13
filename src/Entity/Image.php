@@ -17,8 +17,11 @@ class Image
     private ?string $url = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
     private ?Figure $figure = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $name = null;
 
     public function getId(): ?int
     {
@@ -45,6 +48,18 @@ class Image
     public function setFigure(?Figure $figure): self
     {
         $this->figure = $figure;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

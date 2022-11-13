@@ -32,7 +32,7 @@
 {% for figure in figures %}
 
 {% if figure.image %}
-{% set thumb = asset('uploads/images/' ~ figure.image) | imagine_filter('figure_thumb') %}
+{% set thumb = asset('uploads/images/' ~ figure.image.url) | imagine_filter('figure_thumb') %}
 {% else %}
 {% set thumb = asset('media/images/default.jpg') | imagine_filter('figure_thumb') %}
 {% endif %}
@@ -47,7 +47,7 @@
             <div class="row row-cols-3 align-items-center justify-content-start">
                 <div class="col-9 col-sm-8">
                     <a href="{{ path('app_show', {'id': figure.id, 'slug': figure.slug}) }}">
-                    <h5 class="card-title">{{ figure.name | u.truncate(17) }}</h5>
+                    <h6 class="card-title">{{ figure.name | u.truncate(20) }}</h6>
                     </a>
                 </div>
                 {% if is_granted("POST_EDIT", figure) %}
@@ -59,7 +59,7 @@
                     </a>
                 </div>
                 <div class="col-1">
-                {{ include('figure/_delete_form.html.twig') }}
+                    {{ include('figure/_delete_form.html.twig') }}
                 </div>
                 {% endif %}
             </div>

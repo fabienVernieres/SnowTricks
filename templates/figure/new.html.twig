@@ -6,8 +6,11 @@
     <h1 class="container mt-4">Créer une nouvelle Figure</h1>
 
 <div class="container mt-4">
+    <div class="form-figure-form">
+    {% set add = true %}
     {{ include('figure/_form.html.twig') }}
-
+    </div>
+    
     <p class="mt-4">
     <a href="{{ path('app_figure_index') }}">Retour à la liste</a>
     </p>

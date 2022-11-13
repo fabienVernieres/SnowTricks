@@ -6,12 +6,12 @@ use App\Entity\Figure;
 use App\Form\FigureType;
 use App\Service\FileUploader;
 use App\Repository\FigureRepository;
+use App\Repository\ImageRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -42,17 +42,9 @@ class FigureController extends AbstractController
             $user = $this->getUser();
             $figure->setAuthor($user);
 
-            /** @var UploadedFile $imageFile */
-            $imageFile = $form->get('image')->getData();
-
-            if ($imageFile) {
-                $imageFileName = $fileUploader->upload('images_directory', $imageFile);
-                $figure->setImage($imageFileName);
-            }
-
             $figureRepository->save($figure, true);
 
-            $this->addFlash('success', 'L\ajout de votre figure est validée.');
+            $this->addFlash('success', 'L\'ajout de votre figure est validée.');
             return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -75,7 +67,7 @@ class FigureController extends AbstractController
      * @IsGranted("POST_EDIT", subject="figure")
      *
      */
-    public function edit(Request $request, Figure $figure, FigureRepository $figureRepository, FileUploader $fileUploader): Response
+    public function edit(Request $request, Figure $figure, FigureRepository $figureRepository, FileUploader $fileUploader, ImageRepository $imagesRepository): Response
     {
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
@@ -88,25 +80,28 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('app_figure_edit', ['id' => $figure->getId()], Response::HTTP_SEE_OTHER);
         }
 
+        $images = $imagesRepository->findBy(['figure' => $figure]);
+
         return $this->renderForm('figure/edit.html.twig', [
             'figure' => $figure,
+            'images' => $images,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_figure_delete', methods: ['POST'])]
+    #[Route('/{id}/{_token}', name: 'app_figure_delete', methods: ['POST', 'GET'])]
     /**
      * @IsGranted("POST_EDIT", subject="figure")
      *
      */
-    public function delete(Request $request, Figure $figure, FigureRepository $figureRepository): Response
+    public function delete(Figure $figure, FigureRepository $figureRepository, $_token): Response
     {
         if ($figure->getImage()) {
             $fileSystem = new Filesystem();
-            $fileSystem->remove($this->getParameter('images_directory') . '/' . $figure->getImage());
+            $fileSystem->remove($this->getParameter('images_directory') . '/' . $figure->getImage()->getUrl());
         }
 
-        if ($this->isCsrfTokenValid('delete' . $figure->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $figure->getId(), $_token)) {
             $figureRepository->remove($figure, true);
         }
 

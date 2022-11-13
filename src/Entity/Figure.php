@@ -16,7 +16,7 @@ class Figure
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 20)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -45,6 +45,7 @@ class Figure
     private Collection $videos;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(onDelete: "SET NULL")]
     private ?Image $image = null;
 
     public function __construct()

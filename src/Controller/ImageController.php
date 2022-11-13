@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/image')]
 class ImageController extends AbstractController
 {
-    #[Route('/new/{figure}', name: 'app_image_new', methods: ['GET', 'POST'])]
+    #[Route('/edit/{figure}', name: 'app_image_edit', methods: ['GET', 'POST'])]
     public function new(Request $request, ImageRepository $imageRepository, int $figure, FileUploader $fileUploader, FigureRepository $figureRepository): Response
     {
         $image = new Image();
@@ -25,17 +25,23 @@ class ImageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $figure = $figureRepository->find($figure);
+            $this->denyAccessUnlessGranted('POST_EDIT', $figure);
+
+            if ($figure->getImage() !== null) {
+                $oldImage = $figure->getImage();
+
+                $fileSystem = new Filesystem();
+                $fileSystem->remove($this->getParameter('images_directory') . '/' . $figure->getImage()->getUrl());
+            }
+
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('image')->getData();
-
             if ($imageFile) {
                 $imageFileName = $fileUploader->upload('images_directory', $imageFile);
                 $image->setUrl($imageFileName);
             }
-
-            $figure = $figureRepository->find($figure);
-
-            $this->denyAccessUnlessGranted('POST_EDIT', $figure);
 
             $image->setFigure($figure);
             $imageRepository->save($image, true);
@@ -43,7 +49,43 @@ class ImageController extends AbstractController
             $figure->setImage($image);
             $figureRepository->save($figure, true);
 
-            return $this->redirectToRoute('app_figure_show', ['id' => $figure->getId(), 'slug' => $figure->getSlug()], Response::HTTP_SEE_OTHER);
+            if (isset($oldImage)) {
+                $imageRepository->remove($oldImage, true);
+            }
+
+            return $this->redirectToRoute('app_figure_edit', ['id' => $figure->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('image/edit.html.twig', [
+            'image' => $image,
+            'form' => $form,
+            'figure' => $figure
+        ]);
+    }
+
+    #[Route('/add/{figure}', name: 'app_image_add', methods: ['GET', 'POST'])]
+    public function add(Request $request, ImageRepository $imageRepository, int $figure, FileUploader $fileUploader, FigureRepository $figureRepository): Response
+    {
+        $image = new Image();
+        $form = $this->createForm(ImageType::class, $image);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $figure = $figureRepository->find($figure);
+            $this->denyAccessUnlessGranted('POST_EDIT', $figure);
+
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageFileName = $fileUploader->upload('images_directory', $imageFile);
+                $image->setUrl($imageFileName);
+            }
+
+            $image->setFigure($figure);
+            $imageRepository->save($image, true);
+
+            return $this->redirectToRoute('app_figure_edit', ['id' => $figure->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('image/new.html.twig', [
@@ -61,13 +103,17 @@ class ImageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_image_delete', methods: ['POST'])]
-    public function delete(Request $request, Image $image, ImageRepository $imageRepository): Response
+    #[Route('/{id}/{_token}', name: 'app_image_delete', methods: ['GET'])]
+    public function delete(Image $image, ImageRepository $imageRepository, $_token): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $image->getId(), $request->request->get('_token'))) {
+        $figure = $image->getFigure();
+        $fileSystem = new Filesystem();
+        $fileSystem->remove($this->getParameter('images_directory') . '/' . $image->getUrl());
+
+        if ($this->isCsrfTokenValid('delete' . $image->getId(), $_token)) {
             $imageRepository->remove($image, true);
         }
 
-        return $this->redirectToRoute('app_image_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_figure_edit', ['id' => $figure], Response::HTTP_SEE_OTHER);
     }
 }

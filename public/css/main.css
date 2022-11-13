@@ -88,22 +88,25 @@
 
 .edit-block {
   position: absolute;
-  top: 0px;
-  right: 0;
-  width: 65px;
-  height: 25px;
-  transform: translate(-30px, 5px);
-  z-index: 2;
-}
-
-.edit-block-background {
-  position: absolute;
   top: 0;
   right: 0;
-  width: 75px;
+  width: 70px;
   height: 25px;
+  transform: translate(-20px, 10px);
   background-color: #fff;
+}
+
+.form-add-media-new span {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form-add-media {
   border: 1px solid #000;
-  transform: translate(-10px, 14px);
-  z-index: 1;
+  width: 100px;
+  position: absolute;
+  right: 12px;
+  bottom: -30px;
 }

@@ -5,7 +5,7 @@
 {% block body %}
 
 {% if figure.image %}
-{% set background = asset('uploads/images/' ~ figure.image) %}
+{% set background = asset('uploads/images/' ~ figure.image.url) %}
 {% else %}
 {% set background = asset('media/images/default.jpg') %}
 {% endif %}
@@ -36,7 +36,6 @@
             {{ include('figure/_delete_form.html.twig') }}
         </div>
     </div>
-    <div class="edit-block-background"></div>
     {% endif %}
     
     </div>

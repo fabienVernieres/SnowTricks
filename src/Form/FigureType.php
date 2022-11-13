@@ -14,7 +14,10 @@ class FigureType extends AbstractType
         $builder
             ->add('name', null, array('label' => false))
             ->add('description', null, array('label' => false))
-            ->add('category', null, array('label' => false));
+            ->add('category', null, [
+                'label' => false,
+                'placeholder' => 'Catégorie'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
