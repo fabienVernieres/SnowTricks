@@ -25,7 +25,7 @@ class Comment
     private ?Figure $figure = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
     private ?User $author = null;
 
     public function getId(): ?int

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-4">Tableau de bord</h1>
+
+        <div class="container mt-4 border border-secondary px-4 pt-2 pb-2">
+            <h3>Votre profil</h3>
+            <div class="row row-cols-3">
+                <div class="col-12 col-md-2 mb-2">
+                    <img class="rounded-circle" src="{{ asset('uploads/avatars/' ~ user.avatar) | imagine_filter('avatar_thumb_small') }}" alt="{{ user.avatar }}" />
+                </div>
+            
+                <div class="col-12 col-md-10">
+                    <p>
+                        Nom : {{ user.name }}
+                        <br />
+                        email : {{ user.email }}
+                    </p>
+                    <p class="text-end">
+                        <a href="{{ path('app_user_edit') }}">Modifier</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-4 border border-secondary px-4 pt-2 pb-2">
+            <h3>Vos figures</h3>
+
+            <p class="mt-4 mb-4">
+                <a class="btn btn-primary" href="{{ path('app_figure_new') }}">Ajouter une figure</a>
+            </p>
+         
+            {% for figure in figures %}
+                {% if figure.image %}
+                    {% set image = asset('uploads/images/' ~ figure.image.url) %}
+                {% else %}
+                    {% set image = asset('media/images/default.jpg') %}
+                {% endif %}
+         
+            <div class="row row-cols-2 border-top pt-4">
+                <div class="col-12 col-md-2 mb-2">
+                    <img class="rounded-circle" src="{{ image | imagine_filter('avatar_thumb_small') }}" alt="{{ user.avatar }}" />
+                </div>
+            
+                <div class="col-12 col-md-10">
+                    <p>
+                        <a href="{{ path('app_show', {'id': figure.id, 'slug': figure.slug}) }}">
+                        {{ figure.name }}</a>
+                        <br />
+                        {{ figure.description | u.truncate(130) }}
+                    </p>
+                    <p class="text-end">
+                        <a href="{{ path('app_figure_edit', {'id': figure.id}) }}">Modifier</a>
+                    </p>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

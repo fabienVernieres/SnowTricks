@@ -48,6 +48,9 @@ class Figure
     #[ORM\JoinColumn(onDelete: "SET NULL")]
     private ?Image $image = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updateDate = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -235,6 +238,18 @@ class Figure
     public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }

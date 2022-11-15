@@ -44,7 +44,7 @@ class FigureController extends AbstractController
             $figureRepository->save($figure, true);
 
             $this->addFlash('success', 'L\'ajout de votre figure est validée.');
-            return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_dashboard', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('figure/new.html.twig', [
@@ -62,6 +62,7 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $figure->setUpdateDate(new \DateTime);
             $figureRepository->save($figure, true);
 
             $this->addFlash('success', 'La modification de votre figure est validée.');
@@ -98,6 +99,6 @@ class FigureController extends AbstractController
 
         $this->addFlash('success', 'La suppression de votre figure est validée.');
 
-        return $this->redirectToRoute('app_figure_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }

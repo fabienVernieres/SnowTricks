@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\UserType;
+use App\Repository\FigureRepository;
 use App\Service\FileUploader;
 use App\Repository\UserRepository;
 use Symfony\Component\Filesystem\Filesystem;
@@ -15,6 +16,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/user')]
 class UserController extends AbstractController
 {
+    #[Route('/dashboard', name: 'app_user_dashboard', methods: ['GET', 'POST'])]
+    public function dashboard(FigureRepository $figureRepository): Response
+    {
+        $user = $this->getUser();
+
+        return $this->renderForm('user/dashboard.html.twig', [
+            'user' => $user,
+            'figures' => $figureRepository->findByAuthor($user),
+        ]);
+    }
+
     #[Route('/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, UserRepository $userRepository, FileUploader $fileUploader): Response
     {
@@ -31,10 +43,10 @@ class UserController extends AbstractController
                 if ($user->getAvatar()) {
                     $fileSystem = new Filesystem();
                     $fileSystem->remove($this->getParameter('avatars_directory') . '/' . $user->getAvatar());
-
-                    $avatarFilename = $fileUploader->upload('avatars_directory', $avatarFile);
-                    $user->setAvatar($avatarFilename);
                 }
+
+                $avatarFilename = $fileUploader->upload('avatars_directory', $avatarFile);
+                $user->setAvatar($avatarFilename);
             }
 
             $this->addFlash('success', 'Modification de votre profil validée.');

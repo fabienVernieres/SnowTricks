@@ -5,9 +5,9 @@
 {% block body %}
 
 {% if figure.image %}
-{% set background = asset('uploads/images/' ~ figure.image.url) %}
+    {% set background = asset('uploads/images/' ~ figure.image.url) %}
 {% else %}
-{% set background = asset('media/images/default.jpg') %}
+    {% set background = asset('media/images/default.jpg') %}
 {% endif %}
 
 <div class="container mt-4">
@@ -43,45 +43,95 @@
 
 {# médias #}
 <div class="container mt-4">
-<div class="form-add-media-new row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+    <div class="form-add-media-new row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
 
 {% if images is defined %}
-{% for image in images %}
-
-<div class="col mb-3 d-flex">
-    <div class="card rounded-0 border-0 mb-5">
-        <a href="{{ path('app_image_show', {'id': image.id}) }}">
-        <img class="img-fluid" src="{{ asset('uploads/images/' ~ image.url) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
-        </a>
-    </div>
-</div>
-{% endfor %}
+    {% for image in images %}
+        <div class="col mb-3 d-flex">
+            <div class="card rounded-0 border-0 mb-5">
+                <a href="{{ path('app_image_show', {'id': image.id}) }}">
+                <img class="img-fluid" src="{{ asset('uploads/images/' ~ image.url) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+                </a>
+            </div>
+        </div>
+    {% endfor %}
 {% endif %}
 
 {% if videos is defined %}
-{% for video in videos %}
-
-<div class="col mb-3 d-flex">
-    <div class="card rounded-0 border-0 mb-5">
-        <a href="{{ path('app_video_show', {'id': video.id}) }}">
-        <img class="img-fluid" src="{{ asset('media/images/video.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
-        </a>
+    {% for video in videos %}
+        <div class="col mb-3 d-flex">
+            <div class="card rounded-0 border-0 mb-5">
+                <a href="{{ path('app_video_show', {'id': video.id}) }}">
+                <img class="img-fluid" src="{{ asset('media/images/video.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
     </div>
 </div>
-{% endfor %}
-{% endif %}
-</div>
-</div>
 
+{# description #}
 <div class="container mt-4 ps-2 pe-2 ps-md-5 pe-md-5">
     <p class="ps-2 pe-2 ps-md-5 pe-md-5">
-    {{ figure.description }}</td>
+        {{ figure.description | nl2br }}</td>
     </p>
     
-    <div class="trick-info mt-4">
-        <div>
+    <div class="trick-footer trick-info mt-4">
+        <div class="bg-light">
             Postée le {{ figure.creationDate ? figure.creationDate|date('d-m-Y') : '' }}
         </div>
+
+        {% if figure.updateDate != NULL and figure.creationDate != figure.updateDate %}
+        <div class="ms-2 bg-light">
+            Modifiée le {{ figure.updateDate ? figure.updateDate|date('d-m-Y') : '' }}
+        </div>
+        {% endif %}
+
+        {% if figure.category != NULL %}
+        <div class="ms-2 bg-light">
+            #{{ figure.category.name }}
+        </div>
+        {% endif %}
     </div>
+
+    {# commentaires #}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
+            <p class="trick-footer mt-4">
+                Pour laisser un commentaire <a href="{{ path('app_register') }}">Inscrivez-vous</a> ou <a href="{{ path('app_login') }}">connectez-vous</a>
+            </p>
+        {% else %}
+            {{ form_start(form) }}
+                <div class="trick-footer mt-4 row row-cols-1 row-cols-md-2">
+                    <div class="col col-lg-9">
+                        {{ form_widget(form) }}
+                    </div>
+                    <div class="col col-lg-3 mt-2">
+                        <button class="btn btn-form">Laisser un commentaire</button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        {% endif %}
+
+        {% if comments %}
+        <div class="trick-footer row row-cols-md-2">
+        {% for comment in comments %}
+            {% if comment.author.avatar %}
+                {% set avatar = asset('uploads/avatars/' ~ comment.author.avatar) | imagine_filter('avatar_thumb_small') %}
+            {% else %}
+                {% set avatar = asset('media/images/avatar.jpg') %}
+            {% endif %}
+
+            <div class="d-none d-md-block col-md-3 col-lg-2 mt-4">
+                <img class="img-fluid rounded-circle" src="{{ avatar }}" alt="{{ comment.author.avatar }}" />
+            </div>
+            <div class="col-12 col-md-9 col-lg-10 mt-4 border border-dark px-3 pt-3 pb-3">
+                Le {{ comment.creationDate ? comment.creationDate|date('d-m-Y') : '' }} {{ comment.author.name }} a dit
+                <br />
+                <q>{{ comment.content }}</q>
+            </div>
+        {% endfor %}
+        </div>
+        {% endif %}
 </div>
 {% endblock %}

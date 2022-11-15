@@ -8,7 +8,7 @@
     <div class="container mt-4">
      {% if user.avatar %}
         <div class="mt-4 mb-4">
-            <img src="{{ asset('uploads/avatars/' ~ user.avatar) | imagine_filter('avatar_thumb') }}" alt="{{ user.avatar }}" />
+            <img class="rounded-circle" src="{{ asset('uploads/avatars/' ~ user.avatar) | imagine_filter('avatar_thumb') }}" alt="{{ user.avatar }}" />
         </div>
     {% endif %}
 

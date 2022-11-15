@@ -1,23 +1,26 @@
 {{ form_start(form) }}
     {{ form_row(form.name) }}
     {{ form_row(form.description,{ 'attr': {'rows': '12'}}) }}
-    {{ form_row(form.category) }}
 
+    <div class="row row-cols-2">
+        <div class="col-12 col-md-6">
+            {{ form_row(form.category) }}
+        </div>
 
-{% if add is defined %}
-<div>
-    <button class="btn btn-form">{{ button_label|default('Valider') }}</button>
-</div>
-{% else %}
-<div class="form-figure-btn row row-cols-2 align-items-center justify-content-start">
-    <div class="col-6">
-    <button class="btn btn-form btn-form-save">{{ button_label|default('Valider') }}</button>
-    </div>
-
-    <div class="col-6">
-    {{ include('figure/_delete_form.html.twig') }}
-    </div>
-</div>
-{% endif %}
+        <div class="col-12 col-md-6">
+            {% if add is defined %}
+                <button class="btn btn-form">{{ button_label|default('Valider') }}</button>
+            {% else %}
+                <div class="form-figure-btn row row-cols-2 align-items-center justify-content-start">
+                    <div class="col-6" style="text-align: right;">
+                        {{ include('figure/_delete_form.html.twig') }}
+                    </div>
+                    
+                    <div class="col-6">
+                        <button class="btn btn-form btn-form-save">{{ button_label|default('Valider') }}</button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
 
 {{ form_end(form) }}

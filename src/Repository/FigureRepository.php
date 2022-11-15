@@ -45,7 +45,7 @@ class FigureRepository extends ServiceEntityRepository
             ->andWhere('f.author = :val')
             ->setParameter('val', $value)
             ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(20)
             ->getQuery()
             ->getResult();
     }
