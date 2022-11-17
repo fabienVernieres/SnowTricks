@@ -5,126 +5,120 @@
 {% block body %}
 
 {% if figure.image %}
-{% set background = asset('uploads/images/' ~ figure.image.url) %}
+    {% set background = asset('uploads/images/' ~ figure.image.url) %}
 {% else %}
-{% set background = asset('media/images/default.jpg') %}
+    {% set background = asset('media/images/default.jpg') %}
 {% endif %}
 
 <div class="container mt-4">
-
-{# image à la une #}
-<div class="form-figure">
-    <div class="image-block">
-        <div class=" bg-image d-flex justify-content-center align-items-center"
-        style="
-        background-image: url('{{ background }}');
-        height: 100vh;
-        background-size: cover;">
-            <div class="mask p-5" style="background-color: rgba(0, 0, 0, 0.1);">
-                <h1 class="mb-3 text-white text-center">{{ figure.name | u.truncate(19) }}</h1>
+    {# image à la une #}
+    <div class="form-figure">
+        <div class="image-block">
+            <div class=" bg-image d-flex justify-content-center align-items-center"
+                style="
+                background-image: url('{{ background }}');
+                height: 100vh;
+                background-size: cover;">
+                <div class="mask p-5" style="background-color: rgba(0, 0, 0, 0.1);">
+                    <h1 class="mb-3 text-white text-center">{{ figure.name | u.truncate(19) }}</h1>
+                </div>
             </div>
-        </div>
     
-    <div class="edit-block row row-cols-2 align-items-center justify-content-start">
-        <div class="col-6">
-            <a href="{{ path('app_image_figure', {'figure': figure.id}) }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-            </svg>
-            </a>
+            <div class="edit-block row row-cols-2 align-items-center justify-content-start">
+                <div class="col-6">
+                    <a href="{{ path('app_image_figure', {'figure': figure.id}) }}">
+                    <i class="bi-pencil-fill"></i>
+                    </a>
+                </div>
+
+                <div class="col-6">
+                    {% if figure.image %}
+                        {{ include('image/_delete_form.html.twig', {'image': figure.image, 'figure': figure}) }}
+                    {% endif %}
+                </div>
+            </div>
         </div>
-        <div class="col-6">
-        {% if figure.image %}
-        {{ include('image/_delete_form.html.twig', {'image': figure.image, 'figure': figure}) }}
-        {% endif %}
+
+        {# médias #}
+        <div id="medias-btn" class="container mt-4">
+            <button class="d-block d-sm-none btn btn-form" onclick="showMedias()">Voir les médias</button>
         </div>
-    </div>
-</div>
 
-{# médias #}
-<div class="container mt-4">
-<div class="form-add-media-new row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-<div class="col mb-3 d-flex align-items-stretch">
-    <div class="card rounded-0 border-0 text-center">
-        <a href="{{ path('app_image_add', {'figure': figure.id}) }}">
-        <img class="img-fluid" src="{{ asset('media/images/default.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
-        <span>Ajouter une image</span>
-        </a>
-    </div>
-</div>
+        <div id="medias" class="container mt-4">
+            <div class="form-add-media-new row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                <div class="col mb-3 d-flex align-items-stretch">
+                    <div class="card rounded-0 border-0 text-center w-100">
+                        <a href="{{ path('app_image_add', {'figure': figure.id}) }}">
+                        <img class="img-fluid w-100 h-100" src="{{ asset('media/images/default.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+                        <span>Ajouter une image</span>
+                        </a>
+                    </div>
+                </div>
 
-<div class="col mb-3 d-flex align-items-stretch">
-    <div class="card rounded-0 border-0 text-center">
-        <a href="{{ path('app_video_new', {'figure': figure.id}) }}">
-        <img class="img-fluid" src="{{ asset('media/images/default.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
-        <span>Ajouter une vidéo</span>
-        </a>
-    </div>
-</div>
+                <div class="col mb-3 d-flex align-items-stretch">
+                    <div class="card rounded-0 border-0 text-center w-100">
+                        <a href="{{ path('app_video_new', {'figure': figure.id}) }}">
+                        <img class="img-fluid w-100" src="{{ asset('media/images/default.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+                        <span>Ajouter une vidéo</span>
+                        </a>
+                    </div>
+                </div>
 
-{% if images is defined %}
-{% for image in images %}
-
-<div class="col mb-3 d-flex">
-    <div class="card rounded-0 border-0 mb-5">
-        <img class="img-fluid" src="{{ asset('uploads/images/' ~ image.url) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+                {% if images is defined %}
+                    {% for image in images %}
+                        <div class="col mb-3 d-flex">
+                            <div class="card rounded-0 border-0 mb-5 w-100">
+                                <img class="img-fluid w-100" src="{{ asset('uploads/images/' ~ image.url) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
         
-        <div class="form-add-media row row-cols-2">
-            <div class="col d-flex align-items-stretch justify-content-end">
-                <a href="{{ path('app_image_edit', {'image': image.id}) }}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                </svg>
-                </a>
-            </div>
+                                <div class="form-add-media row row-cols-2">
+                                    <div class="col d-flex align-items-stretch justify-content-end">
+                                        <a href="{{ path('app_image_edit', {'image': image.id}) }}">
+                                        <i class="bi-pencil-fill"></i>
+                                        </a>
+                                    </div>
             
-            <div class="col d-flex align-items-stretch">
-                {{ include('image/_delete_form.html.twig', {'image': image, 'figure': figure}) }}
-            </div>
-        </div>
-    </div>
-</div>
-{% endfor %}
-{% endif %}
+                                    <div class="col d-flex align-items-stretch">
+                                        {{ include('image/_delete_form.html.twig', {'image': image, 'figure': figure}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
-{% if videos is defined %}
-{% for video in videos %}
-
-<div class="col mb-3 d-flex">
-    <div class="card rounded-0 border-0 mb-5">
-        <img class="img-fluid" src="{{ asset('media/images/video.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+                {% if videos is defined %}
+                    {% for video in videos %}
+                        <div class="col mb-3 d-flex">
+                            <div class="card rounded-0 border-0 mb-5 w-100">
+                                <img class="img-fluid w-100" src="{{ asset('media/images/video.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
         
-        <div class="form-add-media row row-cols-2">
-            <div class="col d-flex align-items-stretch justify-content-end">
-                <a href="{{ path('app_video_edit', {'id': video.id}) }}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                </svg>
-                </a>
-            </div>
+                                <div class="form-add-media row row-cols-2">
+                                    <div class="col d-flex align-items-stretch justify-content-end ">
+                                        <a href="{{ path('app_video_edit', {'id': video.id}) }}">
+                                        <i class="bi-pencil-fill"></i>
+                                        </a>
+                                    </div>
             
-            <div class="col d-flex align-items-stretch">
-                {{ include('video/_delete_form.html.twig', {'video': video}) }}
+                                    <div class="col d-flex align-items-stretch">
+                                        {{ include('video/_delete_form.html.twig', {'video': video}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+
+        {# formulaire #}
+        <div class="container mt-4">
+            {% set btn = true %}
+            <div class="form-figure-form">
+                {{ include('figure/_form.html.twig', {'button_label': 'Modifier'}) }}
             </div>
         </div>
     </div>
 </div>
-{% endfor %}
-{% endif %}
 
-</div>
-</div>
-
-{# formulaire #}
-<div class="container mt-4">
-
-{% set btn = true %}
-<div class="form-figure-form">
-{{ include('figure/_form.html.twig', {'button_label': 'Modifier'}) }}
-</div>
-
-</div>
-
-</div>
-</div>
 {% endblock %}

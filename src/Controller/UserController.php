@@ -3,15 +3,16 @@
 namespace App\Controller;
 
 use App\Form\UserType;
-use App\Repository\FigureRepository;
 use App\Service\FileUploader;
 use App\Repository\UserRepository;
+use App\Repository\FigureRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -28,7 +29,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, UserRepository $userRepository, FileUploader $fileUploader): Response
+    public function edit(Request $request, UserRepository $userRepository, FileUploader $fileUploader, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = $this->getUser();
 
@@ -36,6 +37,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setName(strtoupper($form->get('name')->getData()));
+
             /** @var UploadedFile $avatarFile */
             $avatarFile = $form->get('avatar')->getData();
 
@@ -47,6 +50,15 @@ class UserController extends AbstractController
 
                 $avatarFilename = $fileUploader->upload('avatars_directory', $avatarFile);
                 $user->setAvatar($avatarFilename);
+            }
+
+            if ($form->get('newPassword')->getData()) {
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('newPassword')->getData()
+                    )
+                );
             }
 
             $this->addFlash('success', 'Modification de votre profil validée.');

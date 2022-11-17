@@ -5,11 +5,11 @@
 {% block body %}
     <h1 class="container mt-4">{{ video.name }}</h1>
 
-    <div class="container mt-4">
+    <div class="video container mt-4">
     {{ video.code|raw }}
 
     <p class="mt-4">
-    Image liée à la figure : <a href="{{ path('app_show', {
+    Vidéo liée à la figure : <a href="{{ path('app_show', {
         'id': video.figure.id, 
         'slug': video.figure.slug
         }) }}">{{ video.figure.name }}</a>

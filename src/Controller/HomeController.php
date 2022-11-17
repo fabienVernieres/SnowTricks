@@ -47,7 +47,7 @@ class HomeController extends AbstractController
             $this->addFlash('success', 'L\'ajout de votre commentaire est validée.');
         }
 
-        $comments = $commentRepository->findBy(['figure' => $figure]);
+        $comments = $commentRepository->findBy(['figure' => $figure], ['creationDate' => 'DESC']);
 
         return $this->render('figure/show.html.twig', [
             'figure' => $figure,

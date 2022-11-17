@@ -1,9 +1,45 @@
 <footer class="bg-light text-center text-lg-start mt-5">
 
   <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+  <div class="text-center p-3"">
     © 2022 Copyright:
     <a class="text-dark" href="https://fabienvernieres.com">fabien Vernières</a>
   </div>
   <!-- Copyright -->
 </footer>
+
+<nav class="navbar fixed-bottom d-block d-sm-none navbar-expand-lg navbar-light bg-dark">
+  <div class="container-fluid">
+      <ul class="navbar-nav justify-content-around flex-row" style="width: 100%;">
+        
+        <li class="nav-item fs-1">
+          <a class="nav-link" href="{{ path('app_home') }}">
+          <i class="bi-house-fill"></i>
+          </a>
+        </li>
+        
+        <li class="nav-item fs-1">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a class="nav-link" href="{{ path('app_user_dashboard') }}">   
+          {% else %}
+            <a class="nav-link" href="{{ path('app_login') }}">
+          {% endif %}
+          <i class="bi-bookmark-fill"></i>
+          </a>
+        </li>
+        
+        <li class="nav-item fs-1">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+          <a class="nav-link" href="{{ path('app_logout') }}">
+          <i class="bi-box-arrow-right"></i>
+          </a>          
+          {% else %}
+          <a class="nav-link" href="{{ path('app_register') }}">
+          <i class="bi-box-arrow-in-right"></i>
+          </a>
+          {% endif %}
+        </li>
+
+      </ul>
+  </div>
+</nav>

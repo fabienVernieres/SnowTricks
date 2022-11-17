@@ -1,10 +1,42 @@
-.btn-form,
-.btn-form:hover {
+body {
+  letter-spacing: 0.15em;
+}
+
+a {
+  color: #333333 !important;
+}
+
+.navbar a {
+  color: #eee !important;
+}
+
+.navbar-brand {
+  letter-spacing: 1.1em;
+}
+
+h1 {
+  font-size: 3em !important;
+  letter-spacing: 1.1em;
+}
+
+h1,
+h4 {
+  text-shadow: 1px 1px 2px black;
+}
+
+.btn-form {
   border-radius: 0;
   border: 2px solid #000;
-  box-shadow: 3px 3px #333333;
+  background-color: #333333 !important;
+  color: #fff !important;
+  box-shadow: 3px 3px #ccc;
   height: 35px;
   margin-bottom: 30px;
+}
+
+.btn-form:hover {
+  box-shadow: none;
+  transition: all 0.5s ease-out;
 }
 
 .form-container {
@@ -59,7 +91,8 @@
 
 .trick-info div {
   border-radius: 5px;
-  border: 1px solid #000;
+  border: 1px solid #ccc;
+  color: #666;
   padding: 5px 10px;
   font-size: 13px;
 }
@@ -78,6 +111,13 @@
   border: 1px solid #000;
 }
 
+input:hover,
+select:hover,
+textarea:hover {
+  background-color: rgb(219, 239, 248);
+  transition: all 1s ease-in-out;
+}
+
 .image-block {
   position: relative;
 }
@@ -86,8 +126,8 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 70px;
-  height: 25px;
+  width: 75px;
+  height: 30px;
   transform: translate(-20px, 10px);
   background-color: #fff;
 }
@@ -105,4 +145,45 @@
   position: absolute;
   right: 12px;
   bottom: -30px;
+}
+
+.video iframe {
+  max-width: 100%;
+}
+
+#medias-btn button {
+  margin: auto;
+}
+
+#medias {
+  transition: all 2s ease-out;
+}
+
+.load-more-item {
+  display: none;
+}
+
+.comment-form,
+.tag {
+  margin: auto !important;
+}
+
+.tag div:hover,
+.comment {
+  background-color: aliceblue !important;
+  transition: all 2s ease-out;
+}
+
+@media (max-width: 576px) {
+  #medias {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    letter-spacing: 0.3em;
+  }
 }

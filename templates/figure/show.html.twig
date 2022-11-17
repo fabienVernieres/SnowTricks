@@ -12,14 +12,14 @@
 
 <div class="container mt-4">
 
-    <div class="image-block">
+    <div class="image-block shadow">
         <div class=" bg-image d-flex justify-content-center align-items-center"
         style="
         background-image: url('{{ background }}');
         height: 100vh;
         background-size: cover;">
-            <div class="mask p-5" style="background-color: rgba(0, 0, 0, 0.1);">
-                <h1 class="mb-3 text-white text-center">{{ figure.name }}</h1>
+            <div>
+                <h1 class="text-white text-center">{{ figure.name }}</h1>
             </div>
         </div>
 
@@ -27,9 +27,7 @@
     <div class="edit-block row row-cols-2 align-items-center justify-content-start">
         <div class="col-6">
             <a href="{{ path('app_figure_edit', {'id': figure.id}) }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-            </svg>
+            <i class="bi-pencil-fill"></i>
             </a>
         </div>
         <div class="col-6">
@@ -42,32 +40,36 @@
 </div>
 
 {# médias #}
-<div class="container mt-4">
-    <div class="form-add-media-new row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+<div id="medias-btn" class="container mt-4">
+    <button class="d-block d-sm-none btn btn-form" onclick="showMedias()">Voir les médias</button>
+</div>
 
-{% if images is defined %}
-    {% for image in images %}
-        <div class="col mb-3 d-flex">
-            <div class="card rounded-0 border-0 mb-5">
-                <a href="{{ path('app_image_show', {'id': image.id}) }}">
-                <img class="img-fluid" src="{{ asset('uploads/images/' ~ image.url) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
-                </a>
-            </div>
-        </div>
-    {% endfor %}
-{% endif %}
+<div id="medias" class="container mt-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
 
-{% if videos is defined %}
-    {% for video in videos %}
-        <div class="col mb-3 d-flex">
-            <div class="card rounded-0 border-0 mb-5">
-                <a href="{{ path('app_video_show', {'id': video.id}) }}">
-                <img class="img-fluid" src="{{ asset('media/images/video.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
-                </a>
-            </div>
-        </div>
-    {% endfor %}
-{% endif %}
+        {% if images is defined %}
+            {% for image in images %}
+                <div class="col mb-3 d-flex">
+                    <div class="card rounded-0 border-0 mb-5 w-100 shadow">
+                        <a href="{{ path('app_image_show', {'id': image.id}) }}">
+                        <img class="img-fluid w-100" src="{{ asset('uploads/images/' ~ image.url) | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if videos is defined %}
+            {% for video in videos %}
+                <div class="col mb-3 d-flex">
+                    <div class="card rounded-0 border-0 mb-5 w-100 shadow">
+                        <a href="{{ path('app_video_show', {'id': video.id}) }}">
+                        <img class="img-fluid w-100" src="{{ asset('media/images/video.jpg') | imagine_filter('figure_thumb') }}" alt="{{ figure.name }}" />
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
 
@@ -77,24 +79,32 @@
         {{ figure.description | nl2br }}</td>
     </p>
     
-    <div class="trick-footer trick-info mt-4">
-        <div class="bg-light">
-            Postée le {{ figure.creationDate ? figure.creationDate|date('d-m-Y') : '' }}
+    <div class="tag trick-footer trick-info mt-5 pb-5 row row-cols-5 justify-content-center h-100 align-items-stretch">
+        <div class="col ms-2 bg-white shadow text-center">
+            Postée le 
+            <br />
+            {{ figure.creationDate ? figure.creationDate|date('d-m-Y') : '' }}
         </div>
 
         {% if figure.updateDate != NULL and figure.creationDate != figure.updateDate %}
-        <div class="ms-2 bg-light">
-            Modifiée le {{ figure.updateDate ? figure.updateDate|date('d-m-Y') : '' }}
+        <div class="col ms-2 bg-white shadow text-center">
+            Modifiée le 
+            <br />
+            {{ figure.updateDate ? figure.updateDate|date('d-m-Y') : '' }}
         </div>
         {% endif %}
 
         {% if figure.category != NULL %}
-        <div class="ms-2 bg-light">
+        <div class="col ms-2 bg-white shadow text-center">
+            catégorie
+            <br />
             #{{ figure.category.name }}
         </div>
         {% endif %}
     </div>
+</div>
 
+<div class="container">
     {# commentaires #}
         {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
             <p class="trick-footer mt-4">
@@ -102,7 +112,7 @@
             </p>
         {% else %}
             {{ form_start(form) }}
-                <div class="trick-footer mt-4 row row-cols-1 row-cols-md-2">
+                <div class="comment-form trick-footer mt-4 row row-cols-1 row-cols-md-2">
                     <div class="col col-lg-9">
                         {{ form_widget(form) }}
                     </div>
@@ -112,26 +122,54 @@
                 </div>
             {{ form_end(form) }}
         {% endif %}
-
-        {% if comments %}
-        <div class="trick-footer row row-cols-md-2">
-        {% for comment in comments %}
-            {% if comment.author.avatar %}
-                {% set avatar = asset('uploads/avatars/' ~ comment.author.avatar) | imagine_filter('avatar_thumb_small') %}
-            {% else %}
-                {% set avatar = asset('media/images/avatar.jpg') %}
-            {% endif %}
-
-            <div class="d-none d-md-block col-md-3 col-lg-2 mt-4">
-                <img class="img-fluid rounded-circle" src="{{ avatar }}" alt="{{ comment.author.avatar }}" />
-            </div>
-            <div class="col-12 col-md-9 col-lg-10 mt-4 border border-dark px-3 pt-3 pb-3">
-                Le {{ comment.creationDate ? comment.creationDate|date('d-m-Y') : '' }} {{ comment.author.name }} a dit
-                <br />
-                <q>{{ comment.content }}</q>
-            </div>
-        {% endfor %}
-        </div>
-        {% endif %}
 </div>
+
+<div class="container">
+    <div class="trick-footer">
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="load-more-item">
+                   <div class="row row-cols-md-2 align-items-center">
+                        {% if comment.author.avatar %}
+                            {% set avatar = asset('uploads/avatars/' ~ comment.author.avatar) | imagine_filter('avatar_thumb_small') %}
+                        {% else %}
+                            {% set avatar = asset('media/images/avatar.jpg') %}
+                        {% endif %}
+
+                        <div class="text-center d-none d-md-block col-md-3 col-lg-2 mt-4">
+                            <img class="img-fluid rounded-circle" src="{{ avatar }}" alt="{{ comment.author.avatar }}" />
+                        </div>
+        
+                        <div class="comment col-12 col-md-9 col-lg-10 mt-4 border border-dark px-3 pt-3 pb-3">
+                            Le {{ comment.creationDate ? comment.creationDate|date('d-m-Y') : '' }} <span class="fw-bold">{{ comment.author.name }}</span> a dit
+                            <br />
+                            <q>{{ comment.content }}</q>
+                         </div>
+                    </div>
+                </div>
+                {% endfor %}
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <button class="btn btn-form load-more">
+                <i class="bi bi-plus-circle-dotted"></i> voir plus
+            </button>
+        </div>
+
+         <script>
+            $(document).ready (function () {
+            $(".load-more-item").slice(0, 5).show();
+            $(".load-more").on("click", function(e){
+                e.preventDefault();
+                $(".load-more-item:hidden").slice(0, 5).slideDown();
+                if ($(".load-more-item:hidden").length == 0) {
+                    $(".load-more").addClass("d-none");
+                }
+            });
+            })
+        </script>
+
+    </div>
+</div>
+    
 {% endblock %}
