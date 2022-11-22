@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Erreur</h1>
+
+        <p class="mt-4">
+            La page demandée est introuvable. Vérifiez votre URL
+            ou <a href="{{ path('app_home') }}">retournez à la page d'accueil</a>.
+        </p>
+    </div>
+{% endblock %}

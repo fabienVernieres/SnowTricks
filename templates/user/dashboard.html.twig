@@ -6,7 +6,7 @@
     <div class="container">
         <h1 class="mt-4">Tableau de bord</h1>
 
-        <div class="container mt-4 border border-secondary px-4 pt-2 pb-2">
+        <div class="dashboard container mt-4 border border-secondary px-4 pt-2 pb-2">
             <h3>Votre profil</h3>
             <div class="row row-cols-3">
                 <div class="col-12 col-md-2 mb-2">
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="container mt-4 border border-secondary px-4 pt-2 pb-2">
+        <div class="dashboard container mt-4 border border-secondary px-4 pt-2 pb-2">
             <h3>Vos figures</h3>
 
             <p class="mt-4 mb-4">
@@ -40,8 +40,8 @@
                     {% set image = asset('media/images/default.jpg') %}
                 {% endif %}
          
-            <div class="row row-cols-2 border-top pt-4">
-                <div class="col-12 col-md-2 mb-2">
+            <div class="dashboard-figure row row-cols-2 border-top pt-4">
+                <div class="col-12 col-md-2 mb-2 d-flex align-items-center">
                     <img class="rounded-circle" src="{{ image | imagine_filter('avatar_thumb_small') }}" alt="{{ user.avatar }}" />
                 </div>
             

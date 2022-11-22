@@ -14,13 +14,8 @@ a {
   letter-spacing: 1.1em;
 }
 
-h1 {
-  font-size: 3em !important;
-  letter-spacing: 1.1em;
-}
-
 h1,
-h4 {
+h5 {
   text-shadow: 1px 1px 2px black;
 }
 
@@ -30,7 +25,7 @@ h4 {
   background-color: #333333 !important;
   color: #fff !important;
   box-shadow: 3px 3px #ccc;
-  height: 35px;
+  height: 38px;
   margin-bottom: 30px;
 }
 
@@ -169,21 +164,37 @@ textarea:hover {
 }
 
 .tag div:hover,
-.comment {
+.comment,
+.dashboard {
   background-color: aliceblue !important;
   transition: all 2s ease-out;
 }
 
-@media (max-width: 576px) {
+.dashboard-figure:hover {
+  background-color: lightblue;
+  transition: 2s all ease-in-out;
+}
+
+@media all and (min-device-width: 768px) {
+  .hero h1 {
+    letter-spacing: 1.1em;
+    font-size: 3em !important;
+  }
+
+  .image-block h1 {
+    letter-spacing: 0.5em;
+    font-size: 3em !important;
+  }
+}
+
+@media all and (max-device-width: 576px) {
   #medias {
     visibility: hidden;
     opacity: 0;
     height: 0;
   }
-}
 
-@media (max-width: 768px) {
-  h1 {
-    letter-spacing: 0.3em;
+  .trick-footer {
+    width: 95%;
   }
 }
