@@ -37,7 +37,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setName(strtoupper($form->get('name')->getData()));
+            $user->setName(mb_strtoupper($form->get('name')->getData()));
 
             /** @var UploadedFile $avatarFile */
             $avatarFile = $form->get('avatar')->getData();

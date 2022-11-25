@@ -44,7 +44,7 @@ class FigureRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('f')
             ->andWhere('f.author = :val')
             ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
+            ->orderBy('f.id', 'DESC')
             ->setMaxResults(20)
             ->getQuery()
             ->getResult();
