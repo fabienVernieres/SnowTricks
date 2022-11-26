@@ -16,6 +16,7 @@ jobs:
         with:
           target-server: ${{ secrets.server }}
           remote-user: ${{ secrets.username }}
+          remote-password: ${{ secrets.ftp_password }}
           private-ssh-key: ${{ secrets.SSH_KEY }}
           destination-path: ~/public_html/snowtricks/
           ssh-port: 65002
