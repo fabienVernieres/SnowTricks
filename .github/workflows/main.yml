@@ -18,3 +18,4 @@ jobs:
           remote-user: ${{ secrets.username }}
           private-ssh-key: ${{ secrets.SSH_KEY }}
           destination-path: ~/public_html/snowtricks/
+          ssh-port: 65002
