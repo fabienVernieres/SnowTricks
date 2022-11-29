@@ -29,8 +29,8 @@ jobs:
           php composer.phar dump-autoload
           php bin/console cache:clear
 
-      - name: Create .env
-        uses: "finnp/create-file-action@master"
-        env:
-          FILE_NAME: ".env.local"
-          FILE_DATA: ${{ secrets.local }}
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_SECRET_KEY: ${{ secrets.local }}
+          file_name: .env.local
