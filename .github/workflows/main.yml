@@ -20,12 +20,15 @@ jobs:
           destination-path: ~/public_html/snowtricks/
           ssh-port: 65002
 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: 🔨 Build Project
         run: |
           php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
           php composer-setup.php
           php composer.phar install
+          php composer.phar require symfony/apache-pack
           php composer.phar dump-autoload
           php bin/console cache:clear
           touch local.php
-          php composer.phar require symfony/apache-pack
