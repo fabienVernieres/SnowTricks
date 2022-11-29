@@ -31,4 +31,4 @@ jobs:
 
       - name: Make envfile
         run: |
-          echo "Creating a new file." > .env.local
+          echo "${{ secrets.local }}" > .env
