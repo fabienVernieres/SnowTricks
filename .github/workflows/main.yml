@@ -27,8 +27,5 @@ jobs:
           php composer.phar install
           php composer.phar dump-autoload
           php bin/console cache:clear
-
-      - name: Make envfile
-        run: |
           touch local.php
           php composer.phar require symfony/apache-pack
