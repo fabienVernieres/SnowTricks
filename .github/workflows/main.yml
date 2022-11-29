@@ -20,10 +20,6 @@ jobs:
           destination-path: ~/public_html/snowtricks/
           ssh-port: 65002
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: web-deploy
-    steps:
       - name: 🔨 Build Project
         run: |
           php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
@@ -33,3 +29,10 @@ jobs:
           php composer.phar dump-autoload
           php bin/console cache:clear
           touch local.php
+
+  deploy-complete:
+    runs-on: ubuntu-latest
+    needs: web-deploy
+    steps:
+      - name: Add files
+        run: touch local.php
