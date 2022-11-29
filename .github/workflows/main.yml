@@ -28,5 +28,9 @@ jobs:
           php composer.phar install
           php composer.phar dump-autoload
           php bin/console cache:clear
-          touch .env.local
-          echo ${{ secrets.local }} .env.local
+
+      - name: Create .env
+        uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: ".env.local"
+          FILE_DATA: ${{ secrets.local }}
