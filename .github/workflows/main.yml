@@ -1,5 +1,5 @@
 on:
-  push:
+  pull_request:
     branches:
       - main
 name: Publish Website
@@ -11,6 +11,20 @@ jobs:
       - name: 🚚 Get Latest Code
         uses: actions/checkout@v3
 
+      - name: 📦 Install Packages
+        run: |
+          php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
+          php composer-setup.php
+          php composer.phar install
+          php composer.phar require symfony/apache-pack
+          php composer.phar dump-autoload
+
+      - name: 🔨 Build
+        run: |
+          rm composer-setup.php
+          touch .env.local
+          echo "${{ secrets.local }}"" > .env.local
+
       - name: 📂 Sync Files
         uses: SamKirkland/web-deploy@v1
         with:
@@ -19,14 +33,3 @@ jobs:
           private-ssh-key: ${{ secrets.SSH_KEY }}
           destination-path: ~/public_html/snowtricks/
           ssh-port: 65002
-
-      - name: 🔨 Build Project
-        run: |
-          php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
-          php composer-setup.php
-          php composer.phar require symfony/apache-pack
-          php composer.phar install
-          php composer.phar dump-autoload
-          php bin/console cache:clear
-          touch .env.local
-          echo ${{ secrets.local }} .env.local
