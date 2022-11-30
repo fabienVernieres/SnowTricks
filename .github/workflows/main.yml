@@ -11,6 +11,18 @@ jobs:
       - name: 🚚 Get Latest Code
         uses: actions/checkout@v3
 
+      - name: 📦 Install Packages
+      - run: |
+          php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
+          php composer-setup.php
+          php composer.phar install
+          php composer.phar require symfony/apache-pack
+          php composer.phar dump-autoload
+          php bin/console cache:clear
+      
+      - name: 🔨 Build
+        run: touch local.php
+
       - name: 📂 Sync Files
         uses: SamKirkland/web-deploy@v1
         with:
@@ -19,20 +31,3 @@ jobs:
           private-ssh-key: ${{ secrets.SSH_KEY }}
           destination-path: ~/public_html/snowtricks/
           ssh-port: 65002
-
-      - name: 🔨 Build Project
-        run: |
-          php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
-          php composer-setup.php
-          php composer.phar install
-          php composer.phar require symfony/apache-pack
-          php composer.phar dump-autoload
-          php bin/console cache:clear
-          touch local.php
-
-  deploy-complete:
-    runs-on: ubuntu-latest
-    needs: web-deploy
-    steps:
-      - name: Add files
-        run: touch local.php
