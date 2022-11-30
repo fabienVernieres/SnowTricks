@@ -18,12 +18,13 @@ jobs:
           php composer.phar install
           php composer.phar require symfony/apache-pack
           php composer.phar dump-autoload
+          php bin/console cache:clear
 
       - name: 🔨 Build
         run: |
           rm composer-setup.php
           touch .env.local
-          echo "${{ secrets.local }}"" > .env.local
+          echo "${{ secrets.local }}" > .env.local
 
       - name: 📂 Sync Files
         uses: SamKirkland/web-deploy@v1
