@@ -19,7 +19,6 @@ jobs:
           php composer.phar install
           php composer.phar require symfony/apache-pack
           php composer.phar dump-autoload
-          php composer.phar update
           ls -l
 
       - name: 🔨 Build
