@@ -3,7 +3,7 @@ body {
 }
 
 a {
-  color: #333333 !important;
+  color: #333 !important;
 }
 
 .navbar a {
@@ -22,7 +22,7 @@ h5 {
 .btn-form {
   border-radius: 0;
   border: 2px solid #000;
-  background-color: #333333 !important;
+  background-color: #333 !important;
   color: #fff !important;
   box-shadow: 3px 3px #ccc;
   height: 38px;

@@ -18,6 +18,7 @@ jobs:
           php composer.phar install
           php composer.phar require symfony/apache-pack
           php composer.phar dump-autoload
+          php bin/console doctrine:fixtures:load
 
       - name: 🔨 Build
         run: |
