@@ -13,11 +13,13 @@ jobs:
 
       - name: 📦 Install Packages
         run: |
+          ls -l
           php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
           php composer-setup.php
           php composer.phar install
           php composer.phar require symfony/apache-pack
           php composer.phar dump-autoload
+          ls -l
 
       - name: 🔨 Build
         run: |
