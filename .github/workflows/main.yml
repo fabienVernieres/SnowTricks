@@ -23,7 +23,7 @@ jobs:
         run: |
           rm composer-setup.php
           php composer.phar require symfony/apache-pack
-          php composer.phar install
+          php composer.phar install --ignore-platform-req=php
           touch .env.local
           echo "${{ secrets.local }}" > .env.local
 
