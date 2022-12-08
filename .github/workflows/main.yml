@@ -18,6 +18,8 @@ jobs:
         run: |
           php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
           php composer-setup.php
+          php composer.phar install
+          php composer.phar require symfony/apache-pack
 
       - name: 🔨 Build
         run: |
