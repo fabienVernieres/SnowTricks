@@ -16,6 +16,7 @@ jobs:
 
       - name: 📦 Install Packages
         run: |
+          php -v
           php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
           php composer-setup.php
           php composer.phar install
