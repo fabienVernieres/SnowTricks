@@ -22,8 +22,8 @@ jobs:
       - name: 🔨 Build
         run: |
           rm composer-setup.php
-          php composer.phar install
           php composer.phar require symfony/apache-pack
+          php composer.phar install
           touch .env.local
           echo "${{ secrets.local }}" > .env.local
 
