@@ -18,12 +18,13 @@ jobs:
         run: |
           php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
           php composer-setup.php
+          php composer.phar require symfony/apache-pack
+          php composer.phar dump-autoload
+          php bin/console cache:clear
 
       - name: 🔨 Build
         run: |
           rm composer-setup.php
-          php composer.phar require symfony/apache-pack
-          php composer.phar install --ignore-platform-req=php
           touch .env.local
           echo "${{ secrets.local }}" > .env.local
 
