@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get Latest Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: 📦 Install Packages
         run: |
@@ -20,8 +20,6 @@ jobs:
           php composer-setup.php
           php composer.phar install
           php composer.phar require symfony/apache-pack
-          php composer.phar dump-autoload
-          php bin/console cache:clear
 
       - name: 🔨 Build
         run: |
