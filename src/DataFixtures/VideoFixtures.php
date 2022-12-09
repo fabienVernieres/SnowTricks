@@ -14,7 +14,7 @@ class VideoFixtures extends Fixture implements DependentFixtureInterface
     {
         $video = new Video();
         $video->setFigure($this->getReference('figure2'));
-        $video->setCode('<iframe width="560" height="315" src="https://www.youtube.com/embed/Bg1OrOsaJfE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+        $video->setCode('<iframe width="560" height="315" src="https://www.youtube.com/embed/t705_V-RDcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
         $video->setName("vidéo 1");
         $manager->persist($video);
         $manager->flush();

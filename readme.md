@@ -20,7 +20,7 @@ La démonstration du projet est disponible à cette adresse :
 
 Auteur du projet : fabien Vernières
 [fabienvernieres.com](https://fabienvernieres.com)
-Date : septembre 2022
+Date : novembre 2022
 
 ## Technologies
 
