@@ -35,6 +35,14 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'app_forgot_password_request')]
+    /**
+     * request
+     *
+     * @param  mixed $request
+     * @param  mixed $mailer
+     * @param  mixed $translator
+     * @return Response
+     */
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
@@ -57,6 +65,11 @@ class ResetPasswordController extends AbstractController
      * Confirmation page after a user has requested a password reset.
      */
     #[Route('/check-email', name: 'app_check_email')]
+    /**
+     * checkEmail
+     *
+     * @return Response
+     */
     public function checkEmail(): Response
     {
         // Generate a fake token if the user does not exist or someone hit this page directly.
@@ -74,6 +87,15 @@ class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      */
     #[Route('/reset/{token}', name: 'app_reset_password')]
+    /**
+     * reset
+     *
+     * @param  mixed $request
+     * @param  mixed $passwordHasher
+     * @param  mixed $translator
+     * @param  mixed $token
+     * @return Response
+     */
     public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
     {
         if ($token) {
@@ -131,6 +153,14 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
+    /**
+     * processSendingPasswordResetEmail
+     *
+     * @param  mixed $emailFormData
+     * @param  mixed $mailer
+     * @param  mixed $translator
+     * @return RedirectResponse
+     */
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([

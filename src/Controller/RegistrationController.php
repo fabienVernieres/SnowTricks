@@ -26,6 +26,14 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
+    /**
+     * register
+     *
+     * @param  mixed $request
+     * @param  mixed $userPasswordHasher
+     * @param  mixed $entityManager
+     * @return Response
+     */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -67,6 +75,13 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
+    /**
+     * verifyUserEmail
+     *
+     * @param  mixed $request
+     * @param  mixed $translator
+     * @return Response
+     */
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

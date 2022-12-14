@@ -15,6 +15,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class VideoController extends AbstractController
 {
     #[Route('/new/{figure}', name: 'app_video_new', methods: ['GET', 'POST'])]
+    /**
+     * new
+     *
+     * @param  mixed $request
+     * @param  mixed $videoRepository
+     * @param  mixed $figure
+     * @return Response
+     */
     public function new(Request $request, VideoRepository $videoRepository, Figure $figure): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $figure);
@@ -39,6 +47,12 @@ class VideoController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_video_show', methods: ['GET'])]
+    /**
+     * show
+     *
+     * @param  mixed $video
+     * @return Response
+     */
     public function show(Video $video): Response
     {
         return $this->render('video/show.html.twig', [
@@ -47,6 +61,14 @@ class VideoController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'app_video_edit', methods: ['GET', 'POST'])]
+    /**
+     * edit
+     *
+     * @param  mixed $request
+     * @param  mixed $video
+     * @param  mixed $videoRepository
+     * @return Response
+     */
     public function edit(Request $request, Video $video, VideoRepository $videoRepository): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $video->getFigure());
@@ -68,6 +90,15 @@ class VideoController extends AbstractController
     }
 
     #[Route('/delete/{id}/{_token}', name: 'app_video_delete', methods: ['GET'])]
+    /**
+     * delete
+     *
+     * @param  mixed $request
+     * @param  mixed $video
+     * @param  mixed $videoRepository
+     * @param  mixed $_token
+     * @return Response
+     */
     public function delete(Request $request, Video $video, VideoRepository $videoRepository, $_token): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $video->getFigure());
