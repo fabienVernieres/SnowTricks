@@ -11,6 +11,12 @@ class LoginController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
 
+    /**
+     * index login
+     *
+     * @param  mixed $authenticationUtils
+     * @return Response
+     */
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one

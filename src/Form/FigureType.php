@@ -12,7 +12,12 @@ class FigureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, array('label' => false))
+            ->add('name', null, array(
+                'label' => false,
+                'attr' => array(
+                    'placeholder' => 'Nom de la figure'
+                )
+            ))
             ->add('description', null, array('label' => false))
             ->add('category', null, [
                 'label' => false,

@@ -19,6 +19,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ImageController extends AbstractController
 {
     #[Route('/figure/{figure}', name: 'app_image_figure', methods: ['GET', 'POST'])]
+    /**
+     * featured picture
+     *
+     * @param  mixed $request
+     * @param  mixed $imageRepository
+     * @param  mixed $figure
+     * @param  mixed $fileUploader
+     * @param  mixed $figureRepository
+     * @return Response
+     */
     public function figure(Request $request, ImageRepository $imageRepository, Figure $figure, FileUploader $fileUploader, FigureRepository $figureRepository): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $figure);
@@ -65,6 +75,15 @@ class ImageController extends AbstractController
     }
 
     #[Route('/edit/{image}', name: 'app_image_edit', methods: ['GET', 'POST'])]
+    /**
+     * edit image
+     *
+     * @param  mixed $request
+     * @param  mixed $imageRepository
+     * @param  mixed $image
+     * @param  mixed $fileUploader
+     * @return Response
+     */
     public function edit(Request $request, ImageRepository $imageRepository, Image $image, FileUploader $fileUploader): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $image->getFigure());
@@ -97,6 +116,15 @@ class ImageController extends AbstractController
     }
 
     #[Route('/add/{figure}', name: 'app_image_add', methods: ['GET', 'POST'])]
+    /**
+     * add image
+     *
+     * @param  mixed $request
+     * @param  mixed $imageRepository
+     * @param  mixed $figure
+     * @param  mixed $fileUploader
+     * @return Response
+     */
     public function add(Request $request, ImageRepository $imageRepository, Figure $figure, FileUploader $fileUploader): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $figure);
@@ -129,6 +157,12 @@ class ImageController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_image_show', methods: ['GET'])]
+    /**
+     * show image
+     *
+     * @param  mixed $image
+     * @return Response
+     */
     public function show(Image $image): Response
     {
         return $this->render('image/show.html.twig', [
@@ -137,6 +171,14 @@ class ImageController extends AbstractController
     }
 
     #[Route('/{id}/{_token}', name: 'app_image_delete', methods: ['GET'])]
+    /**
+     * delete image
+     *
+     * @param  mixed $image
+     * @param  mixed $imageRepository
+     * @param  mixed $_token
+     * @return Response
+     */
     public function delete(Image $image, ImageRepository $imageRepository, $_token): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $image->getFigure());

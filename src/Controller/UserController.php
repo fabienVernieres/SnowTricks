@@ -18,6 +18,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_user_dashboard', methods: ['GET', 'POST'])]
+    /**
+     * dashboard
+     *
+     * @param  mixed $figureRepository
+     * @return Response
+     */
     public function dashboard(FigureRepository $figureRepository): Response
     {
         $user = $this->getUser();
@@ -29,6 +35,15 @@ class UserController extends AbstractController
     }
 
     #[Route('/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    /**
+     * edit
+     *
+     * @param  mixed $request
+     * @param  mixed $userRepository
+     * @param  mixed $fileUploader
+     * @param  mixed $userPasswordHasher
+     * @return Response
+     */
     public function edit(Request $request, UserRepository $userRepository, FileUploader $fileUploader, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = $this->getUser();

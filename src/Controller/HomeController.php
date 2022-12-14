@@ -20,7 +20,7 @@ class HomeController extends AbstractController
     public function index(FigureRepository $figureRepository): Response
     {
         return $this->render('home/index.html.twig', [
-            'figures' => $figureRepository->findAll(),
+            'figures' => $figureRepository->findBy([], ['id' => 'DESC']),
         ]);
     }
 
@@ -42,7 +42,7 @@ class HomeController extends AbstractController
             $comment->setFigure($figure);
             $commentRepository->save($comment, true);
 
-            $this->addFlash('success', 'L\'ajout de votre commentaire est validée.');
+            $this->addFlash('success', 'L\'ajout de votre commentaire est validé.');
         }
 
         $comments = $commentRepository->findBy(['figure' => $figure], ['creationDate' => 'DESC']);

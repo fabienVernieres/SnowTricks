@@ -8,6 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class LogoutController extends AbstractController
 {
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
+    /**
+     * logout
+     *
+     * @return void
+     */
     public function logout()
     {
         // controller can be blank: it will never be called!

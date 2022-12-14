@@ -148,13 +148,15 @@
                     </div>
                 </div>
                 {% endfor %}
-        {% endif %}
 
-        <div class="text-center mt-4">
-            <button class="btn btn-form load-more">
-                <i class="bi bi-plus-circle-dotted"></i> voir plus
-            </button>
-        </div>
+                {% if comments|length > 5 %}
+                    <div class="text-center mt-4">
+                        <button class="btn btn-form load-more">
+                        <i class="bi bi-plus-circle-dotted"></i> voir plus
+                        </button>
+                    </div>
+                {% endif %}
+        {% endif %}
 
          <script>
             $(document).ready (function () {

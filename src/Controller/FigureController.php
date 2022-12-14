@@ -17,17 +17,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/figure')]
 class FigureController extends AbstractController
 {
-    #[Route('/', name: 'app_figure_index', methods: ['GET'])]
-    public function index(FigureRepository $figureRepository): Response
-    {
-        $user = $this->getUser();
-
-        return $this->render('figure/index.html.twig', [
-            'figures' => $figureRepository->findByAuthor($user),
-        ]);
-    }
-
     #[Route('/new', name: 'app_figure_new', methods: ['GET', 'POST'])]
+    /**
+     * new figure
+     *
+     * @param  mixed $request
+     * @param  mixed $figureRepository
+     * @return Response
+     */
     public function new(Request $request, FigureRepository $figureRepository): Response
     {
         $figure = new Figure();
@@ -36,7 +33,7 @@ class FigureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $slugger = new AsciiSlugger();
-            $figure->setSlug($slugger->slug($figure->getName()));
+            $figure->setSlug($slugger->slug(mb_strtolower($figure->getName())));
             $figure->setCreationDate(new \DateTime);
             $user = $this->getUser();
             $figure->setAuthor($user);
@@ -54,6 +51,16 @@ class FigureController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'app_figure_edit', methods: ['GET', 'POST'])]
+    /**
+     * edit a figure
+     *
+     * @param  mixed $request
+     * @param  mixed $figure
+     * @param  mixed $figureRepository
+     * @param  mixed $imagesRepository
+     * @param  mixed $videoRepository
+     * @return Response
+     */
     public function edit(Request $request, Figure $figure, FigureRepository $figureRepository, ImageRepository $imagesRepository, VideoRepository $videoRepository): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $figure);
@@ -82,6 +89,15 @@ class FigureController extends AbstractController
     }
 
     #[Route('/{id}/{_token}', name: 'app_figure_delete', methods: ['POST', 'GET'])]
+    /**
+     * delete a figure
+     *
+     * @param  mixed $figure
+     * @param  mixed $figureRepository
+     * @param  mixed $_token
+     * @param  mixed $imageRepository
+     * @return Response
+     */
     public function delete(Figure $figure, FigureRepository $figureRepository, $_token, ImageRepository $imageRepository): Response
     {
         $this->denyAccessUnlessGranted('POST_EDIT', $figure);
