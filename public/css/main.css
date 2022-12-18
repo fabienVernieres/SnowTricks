@@ -146,12 +146,17 @@ textarea:hover {
   max-width: 100%;
 }
 
-#medias-btn button {
+#medias-btn button,
+#medias-btn-hide button {
   margin: auto;
 }
 
+#medias-btn-hide {
+  display: none;
+}
+
 #medias {
-  transition: all 2s ease-out;
+  transition: all 1s ease-in;
 }
 
 .load-more-item {
